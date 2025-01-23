@@ -1,7 +1,7 @@
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import icon from '../../assets/icon.svg';
 import 'tailwindcss/tailwind.css';
-import './App.css';
+import './global.css';
 
 function Hello() {
   return (
