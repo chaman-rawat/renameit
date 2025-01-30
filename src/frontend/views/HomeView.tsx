@@ -1,15 +1,13 @@
-import {
-  SidebarProvider,
-  SidebarTrigger,
-} from '@/frontend/components/ui/sidebar';
+import { SidebarProvider } from '@/frontend/components/ui/sidebar';
 import AppSidebar from '@/frontend/components/app-sidebar';
+import FileDropzone from '@/frontend/components/file-dropzone';
 
 export default function Home() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main>
-        <SidebarTrigger />
+      <main className="h-screen w-full p-8">
+        <FileDropzone />
       </main>
     </SidebarProvider>
   );
