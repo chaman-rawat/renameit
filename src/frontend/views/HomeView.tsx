@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main className="h-screen w-full p-8">
+      <main className="h-screen w-full p-4">
         <FileDropzone />
       </main>
     </SidebarProvider>
