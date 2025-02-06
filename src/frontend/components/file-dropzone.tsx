@@ -42,7 +42,11 @@ export default function FileDropzone() {
             <DropzoneDescription>
               {files.length} files selected
             </DropzoneDescription>
-            <Button className="w-24" variant="outline">
+            <Button
+              onClick={() => setFiles([])}
+              className="w-24"
+              variant="outline"
+            >
               Clear All
             </Button>
             <Button className="w-24" type="submit">
