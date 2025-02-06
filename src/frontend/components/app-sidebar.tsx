@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, Search, Settings } from 'lucide-react';
+import { Folder, History, Settings, Info } from 'lucide-react';
 
 import {
   Sidebar,
@@ -15,34 +15,29 @@ import {
 // Menu items.
 const items = [
   {
-    title: 'Home',
+    title: 'File',
     url: '#',
-    icon: Home,
+    icon: Folder,
     isActive: true,
   },
   {
-    title: 'Inbox',
+    title: 'History',
     url: '#',
-    icon: Inbox,
-  },
-  {
-    title: 'Calendar',
-    url: '#',
-    icon: Calendar,
-  },
-  {
-    title: 'Search',
-    url: '#',
-    icon: Search,
+    icon: History,
   },
   {
     title: 'Settings',
     url: '#',
     icon: Settings,
   },
+  {
+    title: 'About',
+    url: '#',
+    icon: Info,
+  },
 ];
 
-export default function AppSidebar() {
+export default function AppSidebar({ activePage, setActivePage }: any) {
   return (
     <Sidebar collapsible="icon">
       <SidebarContent>
@@ -52,7 +47,11 @@ export default function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={item.isActive}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={activePage === item.title}
+                    onClick={() => setActivePage(item.title)}
+                  >
                     <a href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
