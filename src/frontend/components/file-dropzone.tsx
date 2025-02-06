@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import {
   Dropzone,
   DropzoneDescription,
@@ -8,10 +8,11 @@ import {
   DropzoneUploadIcon,
   DropzoneZone,
 } from '@/frontend/components/ui/dropzone';
+import { Button } from './ui/button';
 import FileList from './file-list';
 
 export default function FileDropzone() {
-  const [files, setFiles] = React.useState<File[]>([]);
+  const [files, setFiles] = useState<File[]>([]);
 
   return (
     <Dropzone
@@ -21,7 +22,7 @@ export default function FileDropzone() {
       }}
       onDropAccepted={setFiles}
     >
-      <div className="grid gap-4">
+      <div className="grid gap-4 pb-10">
         <DropzoneZone>
           <DropzoneInput />
           <DropzoneGroup className="gap-4">
@@ -36,6 +37,19 @@ export default function FileDropzone() {
         </DropzoneZone>
 
         <FileList files={files} />
+        {files.length !== 0 && (
+          <div className="fixed bottom-0 right-0 flex items-center justify-end w-full gap-2 p-2 bg-background ">
+            <DropzoneDescription>
+              {files.length} files selected
+            </DropzoneDescription>
+            <Button className="w-24" variant="outline">
+              Clear All
+            </Button>
+            <Button className="w-24" type="submit">
+              Submit
+            </Button>
+          </div>
+        )}
       </div>
     </Dropzone>
   );
