@@ -36,7 +36,8 @@ export default function FileDropzone() {
           </DropzoneGroup>
         </DropzoneZone>
 
-        <FileList files={files} />
+        <FileList files={files} setFiles={setFiles} />
+
         {files.length !== 0 && (
           <div className="fixed bottom-0 right-0 flex items-center justify-end w-full gap-2 p-2 bg-background ">
             <DropzoneDescription>

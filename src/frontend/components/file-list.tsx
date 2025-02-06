@@ -16,10 +16,17 @@ import {
 
 interface FileListProps {
   files: File[];
+  setFiles: any;
 }
 
-export default function FileList({ files }: FileListProps) {
+export default function FileList({ files, setFiles }: FileListProps) {
   const isRenaming = true;
+
+  const removeFile = (fileName: string) => {
+    setFiles((prevFiles: File[]) =>
+      prevFiles.filter((file) => file.name !== fileName),
+    );
+  };
 
   return (
     <UIFileList>
@@ -49,7 +56,7 @@ export default function FileList({ files }: FileListProps) {
                 <span className="sr-only">Close</span>
               </FileListAction>
             )}
-            <FileListAction>
+            <FileListAction onClick={() => removeFile(file.name)}>
               <Trash2 />
               <span className="sr-only">Remove</span>
             </FileListAction>

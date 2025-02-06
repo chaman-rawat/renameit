@@ -26,7 +26,7 @@ export default function Home() {
   return (
     <SidebarProvider>
       <AppSidebar activePage={activePage} setActivePage={setActivePage} />
-      <main className="flex flex-1 flex-col gap-4 p-4">
+      <main className="flex flex-col flex-1 gap-4 p-4">
         {renderActivePage()}
       </main>
     </SidebarProvider>
