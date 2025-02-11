@@ -14,13 +14,21 @@ import FileList from './file-list';
 export default function FileDropzone() {
   const [files, setFiles] = useState<File[]>([]);
 
+  const handleDropAccepted = (newFiles: File[]) => {
+    setFiles((prevFiles) => {
+      const fileSet = new Set(prevFiles.map((file) => file.name));
+      const uniqueNewFiles = newFiles.filter((file) => !fileSet.has(file.name));
+      return [...prevFiles, ...uniqueNewFiles];
+    });
+  };
+
   return (
     <Dropzone
       accept={{
         'image/*': ['.jpg', '.png'],
         'application/pdf': ['.pdf'],
       }}
-      onDropAccepted={setFiles}
+      onDropAccepted={handleDropAccepted}
     >
       <div className="grid gap-4 pb-10">
         <DropzoneZone>
