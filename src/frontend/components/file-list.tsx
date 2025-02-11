@@ -20,7 +20,7 @@ interface FileListProps {
 }
 
 export default function FileList({ files, setFiles }: FileListProps) {
-  const isRenaming = true;
+  const isRenaming = false;
 
   const removeFile = (fileName: string) => {
     setFiles((prevFiles: File[]) =>
@@ -50,16 +50,17 @@ export default function FileList({ files, setFiles }: FileListProps) {
                 )}
               </FileListDescription>
             </FileListInfo>
-            {isRenaming && (
+            {isRenaming ? (
               <FileListAction>
                 <X />
                 <span className="sr-only">Close</span>
               </FileListAction>
+            ) : (
+              <FileListAction onClick={() => removeFile(file.name)}>
+                <Trash2 />
+                <span className="sr-only">Remove</span>
+              </FileListAction>
             )}
-            <FileListAction onClick={() => removeFile(file.name)}>
-              <Trash2 />
-              <span className="sr-only">Remove</span>
-            </FileListAction>
           </FileListHeader>
         </FileListItem>
       ))}
