@@ -1,7 +1,9 @@
 import { Folder, History, Settings, Info } from 'lucide-react';
+import ThemeToggle from '@/frontend/components/theme-toggle';
 
 import {
   Sidebar,
+  SidebarFooter,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
@@ -64,6 +66,9 @@ export default function AppSidebar({ activePage, setActivePage }: any) {
         </SidebarGroup>
       </SidebarContent>
       <SidebarRail />
+      <SidebarFooter>
+        <ThemeToggle />
+      </SidebarFooter>
     </Sidebar>
   );
 }

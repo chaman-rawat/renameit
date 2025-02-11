@@ -8,7 +8,6 @@ import History from './HistoryView';
 
 export default function Home() {
   const [activePage, setActivePage] = useState('File');
-
   return (
     <SidebarProvider>
       <AppSidebar activePage={activePage} setActivePage={setActivePage} />
