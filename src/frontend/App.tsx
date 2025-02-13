@@ -1,6 +1,6 @@
 import React from 'react';
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
-import { ThemeProvider } from './lib/ThemeContext';
+import { ThemeProvider } from './lib/context/ThemeContext';
 import Home from './views/HomeView';
 import 'tailwindcss/tailwind.css';
 import './global.css';

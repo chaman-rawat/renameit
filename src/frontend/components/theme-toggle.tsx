@@ -1,4 +1,4 @@
-import { useTheme } from '@/frontend/lib/ThemeContext';
+import { useTheme } from '@/frontend/lib/context/ThemeContext';
 import { Check, SunMoon, ChevronsUpDown } from 'lucide-react';
 import {
   DropdownMenu,
