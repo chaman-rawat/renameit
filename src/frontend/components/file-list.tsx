@@ -1,4 +1,4 @@
-import { Loader2, Trash2, X } from 'lucide-react';
+import { Loader2, Trash2, RefreshCw } from 'lucide-react';
 
 import {
   FileList as UIFileList,
@@ -11,7 +11,6 @@ import {
   FileListSize,
   FileListDescriptionText,
   FileListAction,
-  FileListDescriptionSeparator,
 } from '@/frontend/components/ui/file-list';
 
 interface FileListProps {
@@ -20,7 +19,7 @@ interface FileListProps {
 }
 
 export default function FileList({ files, setFiles }: FileListProps) {
-  const isRenaming = false;
+  const isRenaming = true;
 
   const removeFile = (fileName: string) => {
     setFiles((prevFiles: File[]) =>
@@ -37,23 +36,20 @@ export default function FileList({ files, setFiles }: FileListProps) {
             <FileListInfo>
               <FileListName>{file.name}</FileListName>
               <FileListDescription>
-                <FileListSize>{file.size}</FileListSize>
-
-                {isRenaming && (
-                  <>
-                    <FileListDescriptionSeparator />
-                    <FileListDescriptionText>
-                      <Loader2 className="size-3 animate-spin" />
-                      Renaming...
-                    </FileListDescriptionText>
-                  </>
+                {isRenaming ? (
+                  <FileListDescriptionText>
+                    <Loader2 className="size-3 animate-spin" />
+                    Renaming...
+                  </FileListDescriptionText>
+                ) : (
+                  <FileListSize>{file.size}</FileListSize>
                 )}
               </FileListDescription>
             </FileListInfo>
             {isRenaming ? (
               <FileListAction>
-                <X />
-                <span className="sr-only">Close</span>
+                <RefreshCw />
+                <span className="sr-only">Refresh</span>
               </FileListAction>
             ) : (
               <FileListAction onClick={() => removeFile(file.name)}>
