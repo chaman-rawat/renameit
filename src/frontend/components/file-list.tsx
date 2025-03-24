@@ -15,9 +15,8 @@ import {
 import { useDashboardContext } from '../lib/context/DashboardContext';
 
 export default function FileList() {
-  const { currentState, files, removeFile } = useDashboardContext();
-
-  const isRenaming = currentState !== 'fileSelection';
+  const { currentState, files, generatedNames, renamingStatuses, removeFile } =
+    useDashboardContext();
 
   return (
     <UIFileList>
@@ -28,18 +27,27 @@ export default function FileList() {
             <FileListInfo>
               <FileListName>{file.name}</FileListName>
               <FileListDescription>
-                {isRenaming ? (
-                  <FileListDescriptionText>
-                    <Loader2 className="size-3 animate-spin" />
-                    Renaming...
-                  </FileListDescriptionText>
-                ) : (
+                {currentState === 'fileSelection' && (
                   <FileListSize>{file.size}</FileListSize>
                 )}
+
+                <FileListDescriptionText>
+                  {currentState !== 'fileSelection' &&
+                    (renamingStatuses[file.name] !== 'success' ? (
+                      <>
+                        <Loader2 className="size-3 animate-spin" />
+                        {renamingStatuses[file.name]}
+                      </>
+                    ) : (
+                      generatedNames[file.name]
+                    ))}
+                </FileListDescriptionText>
               </FileListDescription>
             </FileListInfo>
-            {isRenaming ? (
-              <FileListAction>
+            {currentState !== 'fileSelection' ? (
+              <FileListAction
+                disabled={renamingStatuses[file.name] !== 'success'}
+              >
                 <RefreshCw />
                 <span className="sr-only">Refresh</span>
               </FileListAction>
