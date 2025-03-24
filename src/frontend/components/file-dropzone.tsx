@@ -56,46 +56,49 @@ export default function FileDropzone() {
 
         <FileList />
 
-        {currentState === 'fileSelection' ? (
-          files.length !== 0 && (
-            <div className="fixed bottom-0 right-0 flex items-center justify-end w-full gap-2 p-2 bg-background ">
-              <DropzoneDescription>
-                {files.length} files selected
-              </DropzoneDescription>
+        <div className="fixed bottom-0 right-0 flex items-center justify-end w-full gap-2 p-2 bg-background ">
+          <DropzoneDescription>
+            {files.length} files selected
+          </DropzoneDescription>
+          {currentState === 'fileSelection' ? (
+            files.length !== 0 && (
+              <>
+                <Button
+                  onClick={() => clearAllFiles()}
+                  className="w-24"
+                  variant="outline"
+                >
+                  Clear All
+                </Button>
+                <Button
+                  onClick={() => submitFiles()}
+                  className="w-24"
+                  type="submit"
+                >
+                  Submit
+                </Button>
+              </>
+            )
+          ) : (
+            <>
               <Button
-                onClick={() => clearAllFiles()}
+                onClick={() => goBack()}
                 className="w-24"
                 variant="outline"
               >
-                Clear All
+                Go back
               </Button>
               <Button
-                onClick={() => submitFiles()}
+                onClick={() => applyRenames()}
                 className="w-24"
                 type="submit"
+                disabled={currentState !== 'applyEditRegenerate'}
               >
-                Submit
+                Apply
               </Button>
-            </div>
-          )
-        ) : (
-          <div className="fixed bottom-0 right-0 flex items-center justify-end w-full gap-2 p-2 bg-background ">
-            <DropzoneDescription>
-              {files.length} files renaming
-            </DropzoneDescription>
-            <Button onClick={() => goBack()} className="w-24" variant="outline">
-              Go back
-            </Button>
-            <Button
-              onClick={() => applyRenames()}
-              className="w-24"
-              type="submit"
-              disabled={currentState !== 'applyEditRegenerate'}
-            >
-              Apply
-            </Button>
-          </div>
-        )}
+            </>
+          )}
+        </div>
       </div>
     </Dropzone>
   );
