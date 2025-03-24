@@ -30,6 +30,8 @@ interface DashboardContextType {
   submitFiles: () => Promise<void>;
   goBack: () => void;
   applyRenames: () => void;
+  regenerateFileName: (file: File) => Promise<void>;
+  applyCustomName: (fileName: string, newName: string) => void;
 }
 
 // Create the context
@@ -74,29 +76,35 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
     );
 
     for (const file of files) {
-      try {
-        console.log(`Generating name for: ${file.name}`);
-        const generatedName = await generateFileName(file);
-
-        setGeneratedNames((prevStatuses) => ({
-          ...prevStatuses,
-          [file.name]: generatedName,
-        }));
-
-        setRenamingStatuses((prevStatuses) => ({
-          ...prevStatuses,
-          [file.name]: 'success',
-        }));
-      } catch (error) {
-        console.error(`Error generating name for ${file.name}:`, error);
-        setRenamingStatuses((prevStatuses) => ({
-          ...prevStatuses,
-          [file.name]: 'error',
-        }));
-      }
+      await regenerateFileName(file);
     }
 
     setCurrentState('applyEditRegenerate');
+  };
+
+  const regenerateFileName = async (file: File) => {
+    setRenamingStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [file.name]: 'generating',
+    }));
+    try {
+      console.log(`Regenerating name for: ${file.name}`);
+      const generatedName = await generateFileName(file);
+      setGeneratedNames((prevNames) => ({
+        ...prevNames,
+        [file.name]: generatedName,
+      }));
+      setRenamingStatuses((prevStatuses) => ({
+        ...prevStatuses,
+        [file.name]: 'success',
+      }));
+    } catch (error) {
+      console.error(`Error regenerating name for ${file.name}:`, error);
+      setRenamingStatuses((prevStatuses) => ({
+        ...prevStatuses,
+        [file.name]: 'error',
+      }));
+    }
   };
 
   // Placeholder for Gemini API call logic (now taking only File)
@@ -107,6 +115,13 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
         resolve(`ai_renamed_${file.name}`); // Example generated name
       }, 1000);
     });
+  };
+
+  const applyCustomName = (fileName: string, newName: string) => {
+    setGeneratedNames((prevNames) => ({
+      ...prevNames,
+      [fileName]: newName,
+    }));
   };
 
   const goBack = () => {
@@ -134,6 +149,8 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
     submitFiles,
     goBack,
     applyRenames,
+    regenerateFileName,
+    applyCustomName,
   };
 
   return (

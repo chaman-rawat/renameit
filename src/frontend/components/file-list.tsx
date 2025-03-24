@@ -15,8 +15,14 @@ import {
 import { useDashboardContext } from '../lib/context/DashboardContext';
 
 export default function FileList() {
-  const { currentState, files, generatedNames, renamingStatuses, removeFile } =
-    useDashboardContext();
+  const {
+    currentState,
+    files,
+    generatedNames,
+    renamingStatuses,
+    removeFile,
+    regenerateFileName,
+  } = useDashboardContext();
 
   return (
     <UIFileList>
@@ -60,6 +66,7 @@ export default function FileList() {
             </FileListInfo>
             {currentState !== 'fileSelection' ? (
               <FileListAction
+                onClick={() => regenerateFileName(file)}
                 disabled={renamingStatuses[file.name] !== 'success'}
               >
                 <RefreshCw />
