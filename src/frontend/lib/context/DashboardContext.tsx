@@ -30,7 +30,10 @@ interface DashboardContextType {
   submitFiles: () => Promise<void>;
   goBack: () => void;
   applyRenames: () => void;
-  regenerateFileName: (file: File) => Promise<void>;
+  regenerateFileName: (
+    file: File,
+    updateDashboardState?: boolean,
+  ) => Promise<void>;
   applyCustomName: (fileName: string, newName: string) => void;
 }
 
@@ -76,13 +79,19 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
     );
 
     for (const file of files) {
-      await regenerateFileName(file);
+      await regenerateFileName(file, false);
     }
 
     setCurrentState('applyEditRegenerate');
   };
 
-  const regenerateFileName = async (file: File) => {
+  const regenerateFileName = async (
+    file: File,
+    updateDashboardState: boolean = true,
+  ) => {
+    if (updateDashboardState) {
+      setCurrentState('fileNameGeneration');
+    }
     setRenamingStatuses((prevStatuses) => ({
       ...prevStatuses,
       [file.name]: 'generating',
@@ -104,6 +113,9 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
         ...prevStatuses,
         [file.name]: 'error',
       }));
+    }
+    if (updateDashboardState) {
+      setCurrentState('applyEditRegenerate');
     }
   };
 
