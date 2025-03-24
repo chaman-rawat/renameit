@@ -73,12 +73,16 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
       files.reduce((acc, file) => ({ ...acc, [file.name]: 'generating' }), {}),
     );
 
-    const newGeneratedNames: Record<string, string> = {};
     for (const file of files) {
       try {
         console.log(`Generating name for: ${file.name}`);
         const generatedName = await generateFileName(file);
-        newGeneratedNames[file.name] = generatedName;
+
+        setGeneratedNames((prevStatuses) => ({
+          ...prevStatuses,
+          [file.name]: generatedName,
+        }));
+
         setRenamingStatuses((prevStatuses) => ({
           ...prevStatuses,
           [file.name]: 'success',
@@ -91,7 +95,7 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
         }));
       }
     }
-    setGeneratedNames(newGeneratedNames);
+
     setCurrentState('applyEditRegenerate');
   };
 
@@ -101,7 +105,7 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(`ai_renamed_${file.name}`); // Example generated name
-      }, 1500);
+      }, 1000);
     });
   };
 
