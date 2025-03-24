@@ -33,14 +33,28 @@ export default function FileList() {
 
                 <FileListDescriptionText>
                   {currentState !== 'fileSelection' &&
-                    (renamingStatuses[file.name] !== 'success' ? (
-                      <>
-                        <Loader2 className="size-3 animate-spin" />
-                        {renamingStatuses[file.name]}
-                      </>
-                    ) : (
-                      generatedNames[file.name]
-                    ))}
+                    (() => {
+                      switch (renamingStatuses[file.name]) {
+                        case 'pending':
+                        case 'generating':
+                          return (
+                            <>
+                              <Loader2 className="size-3 animate-spin" />
+                              <span>Generating...</span>
+                            </>
+                          );
+                        case 'success':
+                          return generatedNames[file.name];
+                        case 'error':
+                          return (
+                            <span className="text-red-500">
+                              Error generating filename
+                            </span>
+                          );
+                        default:
+                          return null;
+                      }
+                    })()}
                 </FileListDescriptionText>
               </FileListDescription>
             </FileListInfo>
