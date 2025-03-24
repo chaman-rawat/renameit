@@ -12,20 +12,12 @@ import {
   FileListDescriptionText,
   FileListAction,
 } from '@/frontend/components/ui/file-list';
+import { useDashboardContext } from '../lib/context/DashboardContext';
 
-interface FileListProps {
-  files: File[];
-  setFiles: any;
-}
+export default function FileList() {
+  const { currentState, files, removeFile } = useDashboardContext();
 
-export default function FileList({ files, setFiles }: FileListProps) {
-  const isRenaming = true;
-
-  const removeFile = (fileName: string) => {
-    setFiles((prevFiles: File[]) =>
-      prevFiles.filter((file) => file.name !== fileName),
-    );
-  };
+  const isRenaming = currentState !== 'fileSelection';
 
   return (
     <UIFileList>
