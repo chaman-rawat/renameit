@@ -12,7 +12,15 @@ import FileList from './file-list';
 import { useDashboardContext } from '../lib/context/DashboardContext';
 
 export default function FileDropzone() {
-  const { files, setFiles, clearAllFiles } = useDashboardContext();
+  const {
+    currentState,
+    files,
+    setFiles,
+    clearAllFiles,
+    submitFiles,
+    goBack,
+    applyRenames,
+  } = useDashboardContext();
 
   const handleDropAccepted = (newFiles: File[]) => {
     setFiles((prevFiles: File[]) => {
@@ -31,35 +39,60 @@ export default function FileDropzone() {
       onDropAccepted={handleDropAccepted}
     >
       <div className="grid gap-4 pb-10">
-        <DropzoneZone>
-          <DropzoneInput />
-          <DropzoneGroup className="gap-4">
-            <DropzoneUploadIcon />
-            <DropzoneGroup>
-              <DropzoneTitle>Drop or Upload</DropzoneTitle>
-              <DropzoneDescription>
-                Supported formats: JPG, PNG, PDF.
-              </DropzoneDescription>
+        {currentState === 'fileSelection' && (
+          <DropzoneZone>
+            <DropzoneInput />
+            <DropzoneGroup className="gap-4">
+              <DropzoneUploadIcon />
+              <DropzoneGroup>
+                <DropzoneTitle>Drop or Upload</DropzoneTitle>
+                <DropzoneDescription>
+                  Supported formats: JPG, PNG, PDF.
+                </DropzoneDescription>
+              </DropzoneGroup>
             </DropzoneGroup>
-          </DropzoneGroup>
-        </DropzoneZone>
+          </DropzoneZone>
+        )}
 
         <FileList />
 
-        {files.length !== 0 && (
+        {currentState === 'fileSelection' ? (
+          files.length !== 0 && (
+            <div className="fixed bottom-0 right-0 flex items-center justify-end w-full gap-2 p-2 bg-background ">
+              <DropzoneDescription>
+                {files.length} files selected
+              </DropzoneDescription>
+              <Button
+                onClick={() => clearAllFiles()}
+                className="w-24"
+                variant="outline"
+              >
+                Clear All
+              </Button>
+              <Button
+                onClick={() => submitFiles()}
+                className="w-24"
+                type="submit"
+              >
+                Submit
+              </Button>
+            </div>
+          )
+        ) : (
           <div className="fixed bottom-0 right-0 flex items-center justify-end w-full gap-2 p-2 bg-background ">
             <DropzoneDescription>
-              {files.length} files selected
+              {files.length} files renaming
             </DropzoneDescription>
-            <Button
-              onClick={() => clearAllFiles()}
-              className="w-24"
-              variant="outline"
-            >
-              Clear All
+            <Button onClick={() => goBack()} className="w-24" variant="outline">
+              Go back
             </Button>
-            <Button className="w-24" type="submit">
-              Submit
+            <Button
+              onClick={() => applyRenames()}
+              className="w-24"
+              type="submit"
+              disabled={currentState !== 'applyEditRegenerate'}
+            >
+              Apply
             </Button>
           </div>
         )}
