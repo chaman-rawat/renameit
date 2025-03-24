@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   Dropzone,
   DropzoneDescription,
@@ -10,12 +9,13 @@ import {
 } from '@/frontend/components/ui/dropzone';
 import { Button } from './ui/button';
 import FileList from './file-list';
+import { useDashboardContext } from '../lib/context/DashboardContext';
 
 export default function FileDropzone() {
-  const [files, setFiles] = useState<File[]>([]);
+  const { files, setFiles, clearAllFiles } = useDashboardContext();
 
   const handleDropAccepted = (newFiles: File[]) => {
-    setFiles((prevFiles) => {
+    setFiles((prevFiles: File[]) => {
       const fileSet = new Set(prevFiles.map((file) => file.name));
       const uniqueNewFiles = newFiles.filter((file) => !fileSet.has(file.name));
       return [...prevFiles, ...uniqueNewFiles];
@@ -44,7 +44,7 @@ export default function FileDropzone() {
           </DropzoneGroup>
         </DropzoneZone>
 
-        <FileList files={files} setFiles={setFiles} />
+        <FileList />
 
         {files.length !== 0 && (
           <div className="fixed bottom-0 right-0 flex items-center justify-end w-full gap-2 p-2 bg-background ">
@@ -52,7 +52,7 @@ export default function FileDropzone() {
               {files.length} files selected
             </DropzoneDescription>
             <Button
-              onClick={() => setFiles([])}
+              onClick={() => clearAllFiles()}
               className="w-24"
               variant="outline"
             >
