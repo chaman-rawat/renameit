@@ -1,3 +1,6 @@
+# UI liberary components
+src/frontend/components/ui
+
 # Logs
 logs
 *.log
