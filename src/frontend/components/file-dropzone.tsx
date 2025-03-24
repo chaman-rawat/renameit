@@ -56,12 +56,12 @@ export default function FileDropzone() {
 
         <FileList />
 
-        <div className="fixed bottom-0 right-0 flex items-center justify-end w-full gap-2 p-2 bg-background ">
-          <DropzoneDescription>
-            {files.length} files selected
-          </DropzoneDescription>
-          {currentState === 'fileSelection' ? (
-            files.length !== 0 && (
+        {files.length !== 0 && (
+          <div className="fixed bottom-0 right-0 flex items-center justify-end w-full gap-2 p-2 bg-background ">
+            <DropzoneDescription>
+              {files.length} files selected
+            </DropzoneDescription>
+            {currentState === 'fileSelection' ? (
               <>
                 <Button
                   onClick={() => clearAllFiles()}
@@ -78,27 +78,27 @@ export default function FileDropzone() {
                   Submit
                 </Button>
               </>
-            )
-          ) : (
-            <>
-              <Button
-                onClick={() => goBack()}
-                className="w-24"
-                variant="outline"
-              >
-                Go back
-              </Button>
-              <Button
-                onClick={() => applyRenames()}
-                className="w-24"
-                type="submit"
-                disabled={currentState !== 'applyEditRegenerate'}
-              >
-                Apply
-              </Button>
-            </>
-          )}
-        </div>
+            ) : (
+              <>
+                <Button
+                  onClick={() => goBack()}
+                  className="w-24"
+                  variant="outline"
+                >
+                  Go back
+                </Button>
+                <Button
+                  onClick={() => applyRenames()}
+                  className="w-24"
+                  type="submit"
+                  disabled={currentState !== 'applyEditRegenerate'}
+                >
+                  Apply
+                </Button>
+              </>
+            )}
+          </div>
+        )}
       </div>
     </Dropzone>
   );
