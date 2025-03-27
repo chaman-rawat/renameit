@@ -6,6 +6,8 @@ import React, {
   SetStateAction,
 } from 'react';
 
+import generateFileName from '../api.js';
+
 // Define the possible states
 export type DashboardState =
   | 'fileSelection'
@@ -117,16 +119,6 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
     if (updateDashboardState) {
       setCurrentState('applyEditRegenerate');
     }
-  };
-
-  // Placeholder for Gemini API call logic (now taking only File)
-  const generateFileName = async (file: File): Promise<string> => {
-    // This is where we would call Gemini API logic using the file object.
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(`ai_renamed_${file.name}`); // Example generated name
-      }, 1000);
-    });
   };
 
   const applyCustomName = (fileName: string, newName: string) => {
