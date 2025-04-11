@@ -1,7 +1,9 @@
 import { GoogleGenAI } from '@google/genai';
 
 const ai = new GoogleGenAI({
-  apiKey: 'GEMINI_API_KEY',
+  apiKey:
+    window.electron.store.has('GEMINI_API_KEY') &&
+    window.electron.store.get('GEMINI_API_KEY'),
 });
 
 export default async function generateFileName(file) {
